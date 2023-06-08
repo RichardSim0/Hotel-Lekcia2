@@ -16,9 +16,15 @@ public class BookingManager {
 
     public void getNumberOfBookings(){
         System.out.println(bookings.size());
-
     }
     public void getNumberOfWorkingBookings(){
         if (bookings.contains(TypeOfVacation.WORKING));
+    }
+
+    @Override
+    public String toString() {
+        return "BookingManager{" +
+                "bookings=" + bookings +
+                '}';
     }
 }

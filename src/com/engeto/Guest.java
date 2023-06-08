@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Guest {
-    String name;
-    String sureName;
-    LocalDate dateOfBirth;
+    private String name;
+    private String sureName;
+    private LocalDate dateOfBirth;
 
     public Guest(String name, String sureName, LocalDate dateOfBirth) {
         this.name = name;
@@ -46,5 +46,18 @@ public class Guest {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getWholeName(){
+        return name + " " + sureName;
+    }
+
+    @Override
+    public String toString() {
+        return "Guest{" +
+                "name='" + name + '\'' +
+                ", sureName='" + sureName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

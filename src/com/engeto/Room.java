@@ -1,36 +1,28 @@
 package com.engeto;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 public class Room {
-    int number;
-    int beds;
-    boolean balcony;
-    boolean seaView;
-    double pricePerNight;
-    LocalDate dateOfAccommodation;
+    private int roomNumber;
+    private int beds;
+    private boolean balcony;
+    private boolean seaView;
+    private BigDecimal pricePerNight;
 
-    public Room(int number, int beds, boolean balcony, boolean seaView, double pricePerNight) {
-        this.number = number;
+    public Room(int roomNumber, int beds, boolean balcony, boolean seaView, BigDecimal pricePerNight) {
+        this.roomNumber = roomNumber;
         this.beds = beds;
         this.balcony = balcony;
         this.seaView = seaView;
         this.pricePerNight = pricePerNight;
     }
-    List<Room> listOfRooms = new ArrayList<>();
-    public void addRoom(Room newRoom){
-        listOfRooms.add(newRoom);
+    
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public int getBeds() {
@@ -57,19 +49,12 @@ public class Room {
         this.seaView = seaView;
     }
 
-    public double getPricePerNight() {
+    public BigDecimal getPricePerNight() {
         return pricePerNight;
     }
 
-    public void setPricePerNight(double pricePerNight) {
+    public void setPricePerNight(BigDecimal pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
 
-    public LocalDate getDateOfAccommodation() {
-        return dateOfAccommodation;
-    }
-
-    public void setDateOfAccommodation(LocalDate dateOfAccommodation) {
-        this.dateOfAccommodation = dateOfAccommodation;
-    }
 }
