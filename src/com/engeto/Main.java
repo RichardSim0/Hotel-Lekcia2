@@ -24,7 +24,7 @@ public class Main {
 //        ***BOOKINGMANAGER***
         bookingManager.add(new Booking(roomsList.get(0),guestsList.get(0), guestsList.subList(0,1),
                 LocalDate.of(2021, 7, 19), LocalDate.of(2021, 7, 26),TypeOfVacation.RECREATIONAL));
-        bookingManager.add(new Booking(roomsList.get(2),guestsList.get(0), guestsList.subList(1,2),
+        bookingManager.add(new Booking(roomsList.get(2),guestsList.get(0), guestsList.subList(0,2),
                 LocalDate.of(2021, 9, 1), LocalDate.of(2021, 9, 14), TypeOfVacation.RECREATIONAL));
         bookingManager.add(new Booking(roomsList.get(2),guestsList.get(2), guestsList.subList(2,3),
                 LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 7), TypeOfVacation.WORKING));
@@ -43,10 +43,9 @@ public class Main {
         for (int i = 0; i < 4; i++) {
             LocalDate checkInDate = startDate.plusDays(i * 7);
             LocalDate checkOutDate = checkInDate.plusDays(3);
-
             bookingManager.add(new Booking(roomsList.get(1),guestsList.get(4), guestsList.subList(4,5), checkInDate, checkOutDate,TypeOfVacation.WORKING));
         }
-
+//      ......Výpis všetkých rezervácii.....
         bookingManager.getNumberOfBookings();
         for (Booking booking : bookingManager.getBookings()) {
             if (booking.getRoom().getRoomNumber() == 1) {
@@ -57,12 +56,20 @@ public class Main {
                 System.out.println(booking.getArrival() + " až " + booking.getDeparture() + ": " + booking.getGuest().getWholeName() +", "+ booking.getOtherGuests() + " (" + booking.getGuest().getDateOfBirth() + ")[3, ano]");
             }
         }
+//      ......Průměrný počet hostů na rezervaci.....
+        int totalGuests = 0;
+        int totalBookings = bookingManager.getBookings().size();
 
-//      Průměrný počet hostů na rezervaci.....
-//        BigDecimal numberOfGuests = BigDecimal.valueOf();
-//        BigDecimal numberOfBookings = BigDecimal.valueOf(bookingManager.getBookings().size());
-//        BigDecimal guestAverage = numberOfBookings.divide(numberOfGuests);
-//        System.out.println(guestAverage);
+        for (Booking booking : bookingManager.getBookings()) {
+            totalGuests += booking.getOtherGuests().size();
+        }
+
+        BigDecimal averageGuests = BigDecimal.valueOf(totalGuests)
+                .divide(BigDecimal.valueOf(totalBookings), 2, BigDecimal.ROUND_HALF_UP);
+
+        System.out.println("Average guests per booking: " + averageGuests);
+
+
 //
 //        if (bookingManager.getBookings().contains(TypeOfVacation.RECREATIONAL)) {
 //            for (int i=0; i<8;i++);
