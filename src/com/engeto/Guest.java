@@ -14,6 +14,11 @@ public class Guest {
         this.sureName = sureName;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public Guest(String name) {
+        this.name = name;
+    }
+
     List<Guest> listOfGuests = new ArrayList<>();
     public void addGuest(Guest newGuest){
         listOfGuests.add(newGuest);
