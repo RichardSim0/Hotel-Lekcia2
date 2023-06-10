@@ -2,6 +2,7 @@ package com.engeto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,18 @@ public class Main {
                 LocalDate.of(2023, 6, 1), LocalDate.of(2023, 6, 7), TypeOfVacation.WORKING));
         bookingManager.add(new Booking(roomsList.get(2),guestsList.get(3), guestsList.subList(3,4),
                 LocalDate.of(2023, 8, 18), LocalDate.of(2023, 8, 21), TypeOfVacation.RECREATIONAL));
+        int den1=2;
+        int month=6;
         for (int den = 1; den <= 30; den++) {
+            if (den1 ==31){
+                den1 = 1;
+                if (den1 == 1){
+                    month++;
+                }
+            }
             bookingManager.add(new Booking(roomsList.get(1),guestsList.get(4), guestsList.subList(4,5),
-                    LocalDate.of(2023, 6, den), LocalDate.of(2023, 6, den), TypeOfVacation.RECREATIONAL));
+                    LocalDate.of(2023, 6, den), LocalDate.of(2023, month, den1), TypeOfVacation.RECREATIONAL));
+            den1++;
         }
         for (int i = 6; i <= 12; i++) {
             bookingManager.add(new Booking(roomsList.get(0),guestsList.get(5), guestsList.subList(5,6),
@@ -45,6 +55,7 @@ public class Main {
             LocalDate checkOutDate = checkInDate.plusDays(3);
             bookingManager.add(new Booking(roomsList.get(1),guestsList.get(4), guestsList.subList(4,5), checkInDate, checkOutDate,TypeOfVacation.WORKING));
         }
+
 //      ......Výpis všetkých rezervácii.....
         bookingManager.getNumberOfBookings();
         for (Booking booking : bookingManager.getBookings()) {
@@ -56,6 +67,7 @@ public class Main {
                 System.out.println(booking.getArrival() + " až " + booking.getDeparture() + ": " + booking.getGuest().getWholeName() +", "+ booking.getOtherGuests() + " (" + booking.getGuest().getDateOfBirth() + ")[3, ano]");
             }
         }
+
 //      ......Průměrný počet hostů na rezervaci.....
         int totalGuests = 0;
         int totalBookings = bookingManager.getBookings().size();
@@ -63,18 +75,44 @@ public class Main {
         for (Booking booking : bookingManager.getBookings()) {
             totalGuests += booking.getOtherGuests().size();
         }
-
         BigDecimal averageGuests = BigDecimal.valueOf(totalGuests)
                 .divide(BigDecimal.valueOf(totalBookings), 2, BigDecimal.ROUND_HALF_UP);
-
         System.out.println("Average guests per booking: " + averageGuests);
 
+//      ......Prvních osm rekreačních rezervací.....
+        int count = 0;
+        for (Booking booking : bookingManager.getBookings()) {
+            if (booking.getTypeOfVacation() == TypeOfVacation.RECREATIONAL) {
+                System.out.println(booking);
+                count++;
+            }
+            if (count == 8) break;
+        }
 
-//
-//        if (bookingManager.getBookings().contains(TypeOfVacation.RECREATIONAL)) {
-//            for (int i=0; i<8;i++);
-//
-//            System.out.println(bookingManager);
-//            }
+//        ......Počet jednodenních, dvoudenních a vícedenních pobytů.....
+        long numOfNights;
+        for (Booking booking : bookingManager.getBookings()) {
+            LocalDate arrivalDate = booking.getArrival();
+            LocalDate departureDate = booking.getDeparture();
+            numOfNights = ChronoUnit.DAYS.between(arrivalDate, departureDate);
+        if (numOfNights==1){
+            System.out.println(booking.getArrival() + " až " + booking.getDeparture() + ": " + booking.getGuest().getWholeName() + " (" + booking.getGuest().getDateOfBirth() + ")[1, ano]" + "POČET NOCÍ: " + numOfNights);
+        } else if (numOfNights == 2) {
+            System.out.println(booking.getArrival() + " až " + booking.getDeparture() + ": " + booking.getGuest().getWholeName() + " (" + booking.getGuest().getDateOfBirth() + ")[1, ano]" + "POČET NOCÍ: " + numOfNights);
+        }else System.out.println(booking.getArrival() + " až " + booking.getDeparture() + ": " + booking.getGuest().getWholeName() + " (" + booking.getGuest().getDateOfBirth() + ")[1, ano]" + "POČET NOCÍ: " + numOfNights);
+        }
+
+//        ......Cena objednávek......
+        for (Booking booking : bookingManager.getBookings()){
+            LocalDate arrivalDate = booking.getArrival();
+            LocalDate departureDate = booking.getDeparture();
+            numOfNights = ChronoUnit.DAYS.between(arrivalDate, departureDate);
+            BigDecimal priceForBooking = BigDecimal.valueOf(numOfNights).multiply(booking.getRoom().getPricePerNight());
+            if (numOfNights==1){
+                System.out.println(booking.getGuest().getWholeName() + " (pokoj " + booking.getRoom().getRoomNumber() + "): " + numOfNights + "noc od " + booking.getArrival() +" za "+ priceForBooking + "Kč");
+            } else if (numOfNights > 1 && numOfNights < 5){
+                System.out.println(booking.getGuest().getWholeName() + " (pokoj " + booking.getRoom().getRoomNumber() + "): " + numOfNights + "noci od " + booking.getArrival() +" za "+ priceForBooking + "Kč");
+            }else System.out.println(booking.getGuest().getWholeName() + " (pokoj " + booking.getRoom().getRoomNumber() + "): " + numOfNights + "nocí od " + booking.getArrival() +" za "+ priceForBooking + "Kč");
+        }
     }
 }

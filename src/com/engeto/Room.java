@@ -57,4 +57,10 @@ public class Room {
         this.pricePerNight = pricePerNight;
     }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomNumber=" + roomNumber +
+                '}';
+    }
 }
